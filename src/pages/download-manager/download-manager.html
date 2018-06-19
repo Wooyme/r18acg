@@ -1,0 +1,27 @@
+<!--
+  Generated template for the DownloadManagerPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>DownloadManager</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let task of downloadTasks; let i=index" (click)="showActionSheet(i)">
+      <ion-avatar item-start>
+        <img src="{{task.avatarUrl}}">
+      </ion-avatar>
+      <h2>{{task.fileName}}</h2>
+      <p>{{task.fileUrl}}</p>
+      <ion-note item-end>{{task.status}}</ion-note>
+    </ion-item>
+  </ion-list>
+</ion-content>
