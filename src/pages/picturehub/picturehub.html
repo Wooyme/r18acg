@@ -4,38 +4,46 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+
 <ion-header>
-
-  <ion-navbar color="primary">
-    <ion-title>图库</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only color="dark" (click)="openPrompt()">
-        <ion-icon name="md-more"></ion-icon>
-      </button>
-    </ion-buttons>
+  <ion-navbar color="positive">
+    <button ion-button menuToggle="menu">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title side="left">图库</ion-title>
+    <!--<ion-buttons end>-->
+      <!--<button ion-button icon-only color="dark" (click)="openPrompt()">-->
+        <!--<ion-icon name="md-more"></ion-icon>-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
   </ion-navbar>
-
 </ion-header>
 
 <ion-content padding>
-  <ion-card *ngFor="let picture of pictures">
-    <img [src]="picture.preload" (click)="openPicture(picture.url)" />
-    <ion-row no-padding>
-      <ion-col>
-        <button ion-button clear small color="danger" icon-start>
-          <ion-icon name='star'></ion-icon>
-          喜欢
-        </button>
-      </ion-col>
-      <ion-col text-right>
-        <button ion-button clear small color="danger" (click)="download(picture.preload,picture.url)" icon-start>
-          <ion-icon name='ios-cloud-download'></ion-icon>
-          下载
-        </button>
-      </ion-col>
-    </ion-row>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingText="下拉刷新..."
+      refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <ion-card *ngFor="let unit of comicUnits">
+    <ion-card-header text-left>{{unit.title}}</ion-card-header>
+    <ion-card-content>
+      <p text-left>作者:{{unit.author}}</p>
+      <p text-left>分类:{{unit.categories}}</p>
+      <p text-left>页数:{{unit.pagesCount}}</p>
+      <ion-row no-padding>
+        <ion-col text-right>
+          <button ion-button clear small color="danger" (click)="openEps(unit.id)" icon-start>
+            <ion-icon name='ios-cloud-download'></ion-icon>
+            view
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
   </ion-card>
-  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data..."></ion-infinite-scroll-content>
+  <ion-infinite-scroll (ionInfinite)="doNextPage($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles"
+                                 loadingText="Loading more data..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

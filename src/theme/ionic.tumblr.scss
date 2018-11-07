@@ -1,0 +1,148 @@
+//This theme overrides the $positive and $calm variable
+$positive: #36465d !default;
+$calm: #519ec8 !default;
+$dark-positive: #445569;
+$extra-dark: #2e3f53;
+$light: #ffffff;
+
+//Global Body class
+.body-tumblr {
+  //General Resets
+  font-family: -apple-system, "Helvetica Neue" , "Segoe WP", sans-serif !important;
+  color: $light;
+  text-align: center;
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    color: $light;
+  }
+  .content,.pane,.view {
+    background-color: $positive;
+  }
+  //Bar
+  .toolbar,.bar.bar-positive {
+    background-image: none;
+    border: none;
+  }
+  //Tabs
+  .tabs-positive > .tabs,
+  .tabs.tabs-positive {
+    background-color: $extra-dark;
+  }
+  .tabs-striped .tabs {
+    border-color: $dark-positive;
+  }
+  .tab-item.tab-item-active,
+  .tab-item.active,
+  .tab-item.activated {
+    color: $light;
+  }
+  .tab-item {
+    color: #9ea1a8;
+  }
+  //THIS CLASS IS OPTIONAL.
+  //If you have four tabs, there's no middle
+  //But if you have an odd number of tabs
+  //You can use this.
+  ///<ion tab class="middle">
+  .tab-item.middle {
+    background-color: $calm;
+    border-radius: 7px;
+    color: $extra-dark;
+    opacity: 1;
+  }
+  .tabs-striped .tabs .tab-item.middle {
+    border-radius: 0;
+  }
+  //Modal
+  .modal {
+    background-color: rgba($positive, 0.95);
+  }
+  .modal-backdrop-bg {
+    background-color: $positive;
+    opacity: 0;
+  }
+  @media (min-width: 680px) {
+    .modal {
+      background-color: rgba(0, 0, 0, 0);
+    }
+    .active .modal-backdrop-bg {
+      background-color: $positive;
+      opacity: 0.98;
+    }
+  }
+  //Lists and Items
+  .item,
+  .item-complex .item-content {
+    background: $positive;
+    color: $light;
+    text-align: left;
+    border-color: $dark-positive;
+    * {
+      color: $light;
+    }
+  }
+  .item.active,
+  .item.activated,
+  .item-complex.active .item-content,
+  .item-complex.activated .item-content,
+  .item .item-content.active,
+  .item .item-content.activated {
+    border-color: $dark-positive;
+    background-color: $dark-positive;
+  }
+  .card .item,
+  .item.item-input {
+    background-color: $light;
+    color: #444;
+  }
+  //.card {
+  //  margin: 0 0 0 0;
+  //}
+  .profile-banner {
+    background-image: url(http://ioniconf.com/img/bg.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding: 20px 0;
+    img {
+      display: block;
+      margin: auto;
+      border: 5px solid #FFF;
+      width: 200px;
+      height: 200px;
+      border-radius: 25px;
+      margin-bottom: 30px;
+    }
+  }
+  //Toggls
+  .toggle input:checked + .track {
+    background-color: #529ecc;
+    border-color: #529ecc;
+  }
+  .toggle .track {
+    background-color: #858d98;
+    border-color: #858d98;
+  }
+  .toggle .handle,
+  .toggle input:checked + .track .handle {
+    background-color: $positive;
+    border-color: $positive;
+    box-shadow: none;
+  }
+  &.platform-android {
+    .toggle .track {
+      background-color: darken($dark-positive, 20%);
+      border-color: #858d98;
+    }
+    .toggle .handle {
+      background-color: $light;
+      border-color: $positive;
+      box-shadow: none;
+    }
+    .toggle input:checked + .track {
+      background-color: rgba($calm, 0.25);
+    }
+    .toggle input:checked + .track .handle {
+      background-color: $calm;
+    }
+  }
+}
+

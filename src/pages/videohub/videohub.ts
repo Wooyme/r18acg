@@ -6,7 +6,6 @@ import { HttpClient } from "@angular/common/http";
 import { LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { AlertController } from 'ionic-angular';
-import {DownloadItem} from "../download-manager/download-manager";
 import {AppConfig} from "../../app/app.config";
 
 /**
@@ -182,10 +181,7 @@ export class VideohubPage {
       alert.addButton({
         text: 'Okay',
         handler: data => {
-          this.event.publish("download:addOne"
-            ,new DownloadItem(avatarUrl
-              ,infos.filter((value)=>{return value.quality==data[0]} )[0].url
-              ,title.replace(/ /g,"_")+".mp4"));
+          //TODO;
         }
       });
       alert.present();

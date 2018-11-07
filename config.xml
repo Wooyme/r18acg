@@ -89,6 +89,9 @@
         <variable name="SENDER_ID" value="85075801930" />
     </plugin>
     <plugin name="cordova-custom-config" spec="^5.0.2" />
-    <plugin name="com.hutchind.cordova.plugins.streamingmedia" spec="~0.1.4" />
-    <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-advanced-http" spec="^2.0.1" />
+    <plugin name="cordova-android-play-services-gradle-release" spec="^1.4.4">
+        <variable name="PLAY_SERVICES_VERSION" value="15.0.0" />
+    </plugin>
+    <engine name="browser" spec="5.0.4" />
 </widget>

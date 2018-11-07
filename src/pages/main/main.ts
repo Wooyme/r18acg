@@ -28,7 +28,7 @@ export class MainPage {
         id:1,
         img:'assets/imgs/t2.jpg',
         title:'R18 图集',
-        value:'同人本，H单图'
+        value:'同人本，CG'
       },
       {
         id:2,
@@ -40,18 +40,20 @@ export class MainPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MainPage');
+    console.log('ionViewDidLoad MainPage123');
   }
 
   public test(id:Number){
     switch (id){
       case 0:
+        alert("暂未开放此功能");
         break;
       case 1:
         this.navCtrl.push(PicturehubPage);
         break;
       case 2:
-        this.navCtrl.push(VideohubPage);
+        // this.navCtrl.push(VideohubPage);
+        alert("暂不开放此功能");
         break;
     }
   }
