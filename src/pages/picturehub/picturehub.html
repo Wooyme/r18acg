@@ -11,11 +11,6 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title side="left">图库</ion-title>
-    <!--<ion-buttons end>-->
-      <!--<button ion-button icon-only color="dark" (click)="openPrompt()">-->
-        <!--<ion-icon name="md-more"></ion-icon>-->
-      <!--</button>-->
-    <!--</ion-buttons>-->
   </ion-navbar>
 </ion-header>
 
@@ -28,14 +23,15 @@
   </ion-refresher>
   <ion-card *ngFor="let unit of comicUnits">
     <ion-card-header text-left>{{unit.title}}</ion-card-header>
+    <img [src]="unit.thumb_path">
     <ion-card-content>
       <p text-left>作者:{{unit.author}}</p>
       <p text-left>分类:{{unit.categories}}</p>
       <p text-left>页数:{{unit.pagesCount}}</p>
       <ion-row no-padding>
         <ion-col text-right>
-          <button ion-button clear small color="danger" (click)="openEps(unit.id)" icon-start>
-            <ion-icon name='ios-cloud-download'></ion-icon>
+          <button ion-button clear small color="calm" (click)="openEps(unit.id)" icon-start>
+            <ion-icon md="md-book"></ion-icon>
             view
           </button>
         </ion-col>
