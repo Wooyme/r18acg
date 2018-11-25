@@ -5,9 +5,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 
-import { MainPage } from '../pages/main/main';
 import { PicturehubPage,PictureModal,EpsModal } from "../pages/picturehub/picturehub";
-import { VideohubPage } from "../pages/videohub/videohub";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -15,19 +13,19 @@ import { IonicStorageModule } from '@ionic/storage';
 import { FileTransfer,FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 import { Diagnostic } from '@ionic-native/diagnostic';
-import { StreamingMedia} from '@ionic-native/streaming-media';
 import {HTTP} from "@ionic-native/http";
 import { IonicImageLoader } from 'ionic-image-loader';
+import {PicturehubPageModule} from "../pages/picturehub/picturehub.module";
+import {AboutPageModule} from "../pages/about/about.module";
+import {AboutPage} from "../pages/about/about";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {HanimePage, VideoModal} from "../pages/hanime/hanime";
+import {HanimePageModule} from "../pages/hanime/hanime.module";
 
 
 @NgModule({
   declarations: [
     MyApp,
-    MainPage,
-    PicturehubPage,
-    EpsModal,
-    PictureModal,
-    VideohubPage
   ],
   imports: [
     BrowserModule,
@@ -36,16 +34,20 @@ import { IonicImageLoader } from 'ionic-image-loader';
     }),
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    IonicImageLoader.forRoot()
+    IonicImageLoader.forRoot(),
+    PicturehubPageModule,
+    AboutPageModule,
+    HanimePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    MainPage,
     PicturehubPage,
     EpsModal,
     PictureModal,
-    VideohubPage
+    AboutPage,
+    HanimePage,
+    VideoModal
   ],
   providers: [
     StatusBar,
@@ -54,8 +56,8 @@ import { IonicImageLoader } from 'ionic-image-loader';
     FileTransferObject,
     File,
     Diagnostic,
-    StreamingMedia,
     HTTP,
+    InAppBrowser,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

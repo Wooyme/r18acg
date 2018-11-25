@@ -7,7 +7,7 @@
   <ion-content>
     <ion-searchbar
       [(ngModel)]="searchInput"
-      (ionClear)="doAction('category',searchInput)"
+      (ionCancel)="doAction('category',searchInput)"
       [showCancelButton]="true">
     </ion-searchbar>
     <ion-list>
@@ -15,4 +15,9 @@
     </ion-list>
   </ion-content>
 </ion-menu>
-<ion-nav [root]="rootPage" #content></ion-nav>
+<ion-tabs>
+  <ion-tab tabTitle="漫画" [root]="rootPage" #content></ion-tab>
+  <ion-tab tabTitle="里番" [root]="animePage"></ion-tab>
+  <ion-tab tabTitle="关于" [root]="aboutPage"></ion-tab>
+</ion-tabs>
+<!--<ion-nav [root]="rootPage" #content></ion-nav>-->

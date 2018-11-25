@@ -10,7 +10,7 @@
     <button ion-button menuToggle="menu">
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title side="left">图库</ion-title>
+    <ion-title side="left">漫画{{category!==""?"/"+category:""}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -23,7 +23,7 @@
   </ion-refresher>
   <ion-card *ngFor="let unit of comicUnits">
     <ion-card-header text-left>{{unit.title}}</ion-card-header>
-    <img [src]="unit.thumb_path">
+    <img [src]="unit.thumb_path" (onerror)="fixBroken(unit)">
     <ion-card-content>
       <p text-left>作者:{{unit.author}}</p>
       <p text-left>分类:{{unit.categories}}</p>

@@ -23,13 +23,17 @@ $light: #ffffff;
     border: none;
   }
   //Tabs
+  .tab-button {
+    min-height: 4rem !important;
+  }
   .tabs-positive > .tabs,
-  .tabs.tabs-positive {
-    background-color: $extra-dark;
+  .tabbar,.tabs.tabs-positive {
+    background-color: $extra-dark !important;
   }
   .tabs-striped .tabs {
     border-color: $dark-positive;
   }
+  .tab-button-text,
   .tab-item.tab-item-active,
   .tab-item.active,
   .tab-item.activated {
@@ -79,6 +83,9 @@ $light: #ffffff;
     * {
       color: $light;
     }
+  }
+  .item-divider {
+    background-color: $dark-positive;
   }
   .item.active,
   .item.activated,
