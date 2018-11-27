@@ -96,6 +96,7 @@ export class HanimePage {
     <ion-header>{{video.name}}</ion-header>
     <ion-content>
       <p>视频功能处于测试阶段</p>
+      <p>现阶段拖动进度条会出bug</p>
       <video id="videoPlayer" controls #myVideo>
         <source type="video/mp4" [src]="blob" />
       </video>
@@ -107,14 +108,12 @@ export class VideoModal {
   blob:SafeUrl = null;
   video:VideoUnit;
   buffer:Uint8Array = new Uint8Array(0);
-  private player:any;
   constructor(public params: NavParams, public viewCtrl: ViewController, public http: HttpClient, private sanitizer: DomSanitizer) {
     this.video = this.params.get("video");
     this.http.get(HanimePage.LOCATE_FORMAT(this.video.page)).toPromise().then((res:string[])=>{
       this.setupVideo(res[0]);
     })
   }
-
   setupVideo(resUrl:string){
     this.myVideo.nativeElement.addEventListener('error',()=>{
       let currentTime = this.myVideo.nativeElement.currentTime;
@@ -130,11 +129,12 @@ export class VideoModal {
         this.buffer = this.concat(this.buffer,new Uint8Array(val));
         let file = new Blob([this.buffer],{type:'video/mp4'})
         this.blob = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
-        offset = end;
+        offset = end + 1;
         end = offset + stepLength<this.video.end?offset+stepLength:this.video.end;
         if(this.myVideo.nativeElement.currentTime==0){
           this.myVideo.nativeElement.load();
           this.myVideo.nativeElement.play();
+          this.resize();
         }
       }
       if(offset!=end)
@@ -143,46 +143,25 @@ export class VideoModal {
     lambda(null);
   }
 
-  setupDashVideo(resUrl:string){
-    let mediaSource = new MediaSource();
-    let blob = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(mediaSource));
-    let called = false;
-    mediaSource.addEventListener('sourceopen',()=>{
-      if(!called) called=true;
-      else return;
-      console.log("Called");
-      let sourceBuffer = mediaSource.addSourceBuffer("video/mp4; codecs=\"avc1.4d401e,mp4a.40.5\"");
-      let promises:Promise<any>[] = [];
-      let stepLength = 10*1024*1024;
-      for (let i = this.video.offset; i < this.video.end; i+=stepLength) {
-        let end = i+stepLength<this.video.end?i+stepLength:this.video.end;
-        promises.push(this.http.get(resUrl,{responseType:'arraybuffer',headers:{'Range':`bytes=${i}-${end}`}}).toPromise())
-      }
-      let mediaArray = [];
-      sourceBuffer.addEventListener('updateend',()=>{
-        if(mediaArray.length>0)
-          sourceBuffer.appendBuffer(mediaArray.shift());
-      });
-      let lambda = (value:any)=>{
-        if(value!==null){
-          if(!sourceBuffer.updating && mediaArray.length==0)
-            sourceBuffer.appendBuffer(new Uint8Array(value));
-          else
-            mediaArray.push(value);
-        }
-        if(promises.length>0)
-          promises.shift().then(lambda);
-      };
-      lambda(null);
-      this.myVideo.nativeElement.play();
-    });
-    return blob;
-  }
-
   concat(a:Uint8Array,b:Uint8Array):Uint8Array{
     let c = new Uint8Array(a.length+b.length);
     c.set(a,0);
     c.set(b,a.length);
     return c;
+  }
+
+  resize() {
+    let video = this.myVideo.nativeElement;
+    let videoRatio = video.height / video.width;
+    let windowRatio = window.innerHeight / window.innerWidth; /* browser size */
+    if (windowRatio < videoRatio) {
+      if (window.innerHeight > 50) { /* smallest video height */
+        video.height = window.innerHeight;
+      } else {
+        video.height = 50;
+      }
+    } else {
+      video.width = window.innerWidth;
+    }
   }
 }
