@@ -35,6 +35,7 @@
     "@ionic-native/video-player": "^4.17.0",
     "@ionic/pro": "1.0.16",
     "@ionic/storage": "2.1.3",
+    "@types/video.js": "^7.2.5",
     "com.hutchind.cordova.plugins.streamingmedia": "~0.1.4",
     "com.moust.cordova.videoplayer": "https://github.com/moust/cordova-plugin-videoplayer.git",
     "cordova-android": "7.0.0",

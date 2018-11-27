@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, ModalController, NavController, NavParams, ViewController} from 'ionic-angular';
 import {HttpClient} from "@angular/common/http";
-import {videojs} from 'video.js'
+import videojs from 'video.js'
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 /**
@@ -96,9 +96,8 @@ export class HanimePage {
     <ion-header>{{video.name}}</ion-header>
     <ion-content>
       <p>视频功能处于测试阶段</p>
-      <p *ngIf="blob==null"> 视频加载中..... </p>
-      <video *ngIf="blob!=null" id="videoPlayer" controls #myVideo>
-        <source [src]="blob" type="video/mp4" />
+      <video id="videoPlayer" controls #myVideo>
+        <source type="video/mp4" [src]="blob" />
       </video>
     </ion-content>
   `
@@ -107,22 +106,44 @@ export class VideoModal {
   @ViewChild('myVideo') myVideo;
   blob:SafeUrl = null;
   video:VideoUnit;
+  buffer:Uint8Array = new Uint8Array(0);
+  private player:any;
   constructor(public params: NavParams, public viewCtrl: ViewController, public http: HttpClient, private sanitizer: DomSanitizer) {
     this.video = this.params.get("video");
     this.http.get(HanimePage.LOCATE_FORMAT(this.video.page)).toPromise().then((res:string[])=>{
-      // this.blob = this.setupVideo(res[0]);
-      this.sampleStupidLoad(res[0]);
-    })
-  }
-
-  sampleStupidLoad(resUrl:string){
-    this.http.get(resUrl,{responseType:'arraybuffer',headers:{'Range':`bytes=${this.video.offset}-${this.video.end}`}}).toPromise().then((value)=>{
-      let file = new Blob([value], {type: 'video/mp4'});
-      this.blob = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
+      this.setupVideo(res[0]);
     })
   }
 
   setupVideo(resUrl:string){
+    this.myVideo.nativeElement.addEventListener('error',()=>{
+      let currentTime = this.myVideo.nativeElement.currentTime;
+      this.myVideo.nativeElement.load();
+      this.myVideo.nativeElement.currentTime = currentTime;
+      this.myVideo.nativeElement.play();
+    });
+    let offset = this.video.offset;
+    let stepLength = 6*1024*1024;
+    let end = offset + stepLength;
+    let lambda = (val)=>{
+      if(val!=null){
+        this.buffer = this.concat(this.buffer,new Uint8Array(val));
+        let file = new Blob([this.buffer],{type:'video/mp4'})
+        this.blob = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
+        offset = end;
+        end = offset + stepLength<this.video.end?offset+stepLength:this.video.end;
+        if(this.myVideo.nativeElement.currentTime==0){
+          this.myVideo.nativeElement.load();
+          this.myVideo.nativeElement.play();
+        }
+      }
+      if(offset!=end)
+        this.http.get(resUrl,{responseType:'arraybuffer',headers:{'Range':`bytes=${offset}-${end}`}}).toPromise().then(lambda);
+    };
+    lambda(null);
+  }
+
+  setupDashVideo(resUrl:string){
     let mediaSource = new MediaSource();
     let blob = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(mediaSource));
     let called = false;
@@ -156,5 +177,12 @@ export class VideoModal {
       this.myVideo.nativeElement.play();
     });
     return blob;
+  }
+
+  concat(a:Uint8Array,b:Uint8Array):Uint8Array{
+    let c = new Uint8Array(a.length+b.length);
+    c.set(a,0);
+    c.set(b,a.length);
+    return c;
   }
 }
