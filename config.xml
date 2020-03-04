@@ -2,7 +2,7 @@
 <widget id="me.wooy.acg" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>r18acg</name>
     <description>Written by wooyme.</description>
-    <author email="wy867653608@gmail.com" href="https://github.com/wy16880175/Ionic-App">Wooyme</author>
+    <author email="wy16880175@gmail.com" href="https://github.com/wy16880175/Ionic-App">Wooyme</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
